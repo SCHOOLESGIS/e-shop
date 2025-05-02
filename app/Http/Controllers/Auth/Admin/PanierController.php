@@ -16,9 +16,9 @@ class PanierController extends Controller
      */
     public function index()
     {
-        $panier = Panier::where('user_id', Auth::id())->first();
+        $panier = Panier::with('items.produit')->where('user_id', Auth::id())->first();
 
-        return view('back.admin.panier.index', compact('panier'));
+        return view('back.admin.paniers.index', compact('panier'));
     }
 
     /**
@@ -26,7 +26,7 @@ class PanierController extends Controller
      */
     public function create()
     {
-        return view('back.admin.panier.create');
+        return view('back.admin.paniers.create');
     }
 
     /**
@@ -37,14 +37,14 @@ class PanierController extends Controller
         $existing = Panier::where('user_id', Auth::id())->first();
 
         if ($existing) {
-            return redirect()->route('panier.index')->with('info', 'Un panier existe déjà.');
+            return redirect()->route('amin.panier.index')->with('info', 'Un panier existe déjà.');
         }
 
         $panier = new Panier();
         $panier->user_id = Auth::id();
         $panier->save();
 
-        return redirect()->route('panier.index')->with('success', 'Panier créé avec succès.');
+        return redirect()->route('admin.panier.index')->with('success', 'Panier créé avec succès.');
     }
 
     /**
@@ -53,7 +53,7 @@ class PanierController extends Controller
     public function show(Panier $panier)
     {
         $this->authorizeAccess($panier);
-        return view('back.admin.panier.show', compact('panier'));
+        return view('back.admin.paniers.show', compact('panier'));
     }
 
     /**
@@ -62,7 +62,7 @@ class PanierController extends Controller
     public function edit(Panier $panier)
     {
         $this->authorizeAccess($panier);
-        return view('back.admin.panier.edit', compact('panier'));
+        return view('back.admin.paniers.edit', compact('panier'));
     }
 
     /**
@@ -74,7 +74,7 @@ class PanierController extends Controller
         // Si des champs additionnels sont présents, les mettre à jour ici
         $panier->save();
 
-        return redirect()->route('panier.index')->with('success', 'Panier mis à jour.');
+        return redirect()->route('admin.panier.index')->with('success', 'Panier mis à jour.');
     }
 
     /**
@@ -85,7 +85,7 @@ class PanierController extends Controller
         $this->authorizeAccess($panier);
         $panier->delete();
 
-        return redirect()->route('panier.index')->with('success', 'Panier supprimé.');
+        return redirect()->route('admin.panier.index')->with('success', 'Panier supprimé.');
     }
 
     /**

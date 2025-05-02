@@ -13,7 +13,7 @@ class ProduitController extends Controller
      */
     public function index()
     {
-        return view('front.produit.index');
+        return view('front.produits.index');
     }
 
     /**
@@ -21,6 +21,6 @@ class ProduitController extends Controller
      */
     public function show(Produit $produit)
     {
-        return view('front.produit.show', compact('produit'));
+        return view('front.produits.show', compact('produit'));
     }
 }

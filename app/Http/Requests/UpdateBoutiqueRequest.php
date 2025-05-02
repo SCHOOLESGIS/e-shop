@@ -22,9 +22,8 @@ class UpdateBoutiqueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'integer'],
             'name' => ['required', 'string'],
-            'slug' => ['required', 'string', 'unique:slug,boutiques'],
+            'slug' => ['nullable', 'string', 'unique:slug,boutiques'],
             'logo' => ['nullable', 'string'],
             'description' => ['nullable', 'string']
         ];

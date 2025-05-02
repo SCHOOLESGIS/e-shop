@@ -15,12 +15,12 @@ class CommandeController extends Controller
     {
         $id = Auth::id();
         $commandes = Commande::where('user_id', $id)->with('boutique')->orderByDesc('created_at')->paginate(10);
-        return view('back.admin.commande.index', compact('commandes'));
+        return view('back.admin.commandes.index', compact('commandes'));
     }
 
     public function create()
     {
-        return view('back.admin.commande.create');
+        return view('back.admin.commandes.create');
     }
 
     public function store(StoreCommandeRequest $request)
@@ -39,13 +39,13 @@ class CommandeController extends Controller
     public function show(Commande $commande)
     {
         $this->authorizeAccess($commande);
-        return view('back.admin.commande.show', compact('commande'));
+        return view('back.admin.commandes.show', compact('commande'));
     }
 
     public function edit(Commande $commande)
     {
         $this->authorizeAccess($commande);
-        return view('back.admin.commande.edit', compact('commande'));
+        return view('back.admin.commandes.edit', compact('commande'));
     }
 
     public function update(UpdateCommandeRequest $request, Commande $commande)
@@ -58,14 +58,14 @@ class CommandeController extends Controller
         $commande->status = $data['status'];
         $commande->save();
 
-        return redirect()->route('back.admin.commande.index')->with('success', 'Commande mise à jour.');
+        return redirect()->route('admin.commande.index')->with('success', 'Commande mise à jour.');
     }
 
     public function destroy(Commande $commande)
     {
         $this->authorizeAccess($commande);
         $commande->delete();
-        return redirect()->route('back.admin.commande.index')->with('success', 'Commande supprimée.');
+        return redirect()->route('admin.commande.index')->with('success', 'Commande supprimée.');
     }
 
     /**

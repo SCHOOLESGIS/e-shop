@@ -36,7 +36,7 @@ class CommandeItemController extends Controller
         $commandeItem->unit_price = $data['unit_price'];
         $commandeItem->save();
 
-        return redirect()->route('back.admin.commande_items.index')->with('success', 'Article de commande ajouté.');
+        return redirect()->route('admin.commandeItem.index')->with('success', 'Article de commande ajouté.');
     }
 
     public function show(CommandeItem $commandeItem)
@@ -61,7 +61,7 @@ class CommandeItemController extends Controller
         $commandeItem->unit_price = $data['unit_price'];
         $commandeItem->save();
 
-        return redirect()->route('back.admin.commande_items.index')->with('success', 'Article mis à jour.');
+        return redirect()->route('back.admin.commandeItem.index')->with('success', 'Article mis à jour.');
     }
 
     public function destroy(CommandeItem $commandeItem)
@@ -69,7 +69,7 @@ class CommandeItemController extends Controller
         $this->authorizeAccess($commandeItem);
         $commandeItem->delete();
 
-        return redirect()->route('back.admin.commande_items.index')->with('success', 'Article supprimé.');
+        return redirect()->route('back.admin.commandeItem.index')->with('success', 'Article supprimé.');
     }
 
     /**

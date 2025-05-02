@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\BuyerMiddleware;
+use App\Http\Middleware\RedirectByRoleIfAuthenticatedMiddleware;
 use App\Http\Middleware\SellerMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,7 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
             [
                 "seller" => SellerMiddleware::class,
                 "buyer" => BuyerMiddleware::class,
-                "admin" => AdminMiddleware::class
+                "admin" => AdminMiddleware::class,
+                "role.redirect" => RedirectByRoleIfAuthenticatedMiddleware::class,
             ]
             );
     })

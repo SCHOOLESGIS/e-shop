@@ -15,7 +15,7 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        return view('back.admin.categorie.index');
+        return view('back.admin.categories.index');
     }
 
     /**
@@ -24,7 +24,7 @@ class CategorieController extends Controller
     public function create()
     {
 
-        return view('back.admin.categorie.create');
+        return view('back.admin.categories.create');
     }
 
     /**
@@ -38,7 +38,7 @@ class CategorieController extends Controller
         $categorie->boutique_id = $data['boutique_id'];
         $categorie->save();
 
-        return view('back.admin.categorie.create')->with('success', 'Catégorie créée avec succès.');
+        return view('back.admin.categories.create')->with('success', 'Catégorie créée avec succès.');
     }
 
     /**
@@ -46,7 +46,7 @@ class CategorieController extends Controller
      */
     public function show(Categorie $categorie)
     {
-        return view('back.admin.categorie.show', compact('categorie'));
+        return view('back.admin.categories.show', compact('categorie'));
     }
 
     /**
@@ -54,7 +54,7 @@ class CategorieController extends Controller
      */
     public function edit(Categorie $categorie)
     {
-        return view('back.admin.categorie.edit', compact('categorie'));
+        return view('back.admin.categories.edit', compact('categorie'));
     }
 
     /**
@@ -67,7 +67,7 @@ class CategorieController extends Controller
         $categorie->boutique_id = $data['boutique_id'];
         $categorie->update();
 
-        return view('back.admin.categorie.index')->with('success', 'Catégorie mise à jour avec succès.');
+        return view('back.admin.categories.index')->with('success', 'Catégorie mise à jour avec succès.');
     }
 
     /**
@@ -76,6 +76,6 @@ class CategorieController extends Controller
     public function destroy(Categorie $categorie)
     {
         $categorie->delete();
-        return view('back.admin.categorie.index')->with('success', 'Catégorie supprimée avec succès.');
+        return view('back.admin.categories.index')->with('success', 'Catégorie supprimée avec succès.');
     }
 }

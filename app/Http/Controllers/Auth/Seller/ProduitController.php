@@ -16,7 +16,7 @@ class ProduitController extends Controller
     public function index(int $boutiqueId)
     {
         $produits = $this->findProduit($boutiqueId);
-        return view('back.seller.produit.index', compact('produits'));
+        return view('back.seller.produits.index', compact('produits'));
     }
 
     /**
@@ -24,7 +24,7 @@ class ProduitController extends Controller
      */
     public function create()
     {
-        return view('back.seller.produit.create');
+        return view('back.seller.produits.create');
     }
 
     /**
@@ -43,7 +43,7 @@ class ProduitController extends Controller
         $produit->categorie_id = $data['categorie_id'];
         $produit->save();
 
-        return redirect()->route('back.seller.produit.index', ['produits' => $this->findProduit($produit->boutique_id)])->with('success', 'Produit créée avec succès.');
+        return redirect()->route('seller.produits.index', ['produits' => $this->findProduit($produit->boutique_id)])->with('success', 'Produit créée avec succès.');
     }
 
     /**
@@ -51,7 +51,7 @@ class ProduitController extends Controller
      */
     public function show(Produit $produit)
     {
-        return redirect()->route('back.seller.produit.show', compact('produit'));
+        return redirect()->route('seller.produits.show', compact('produit'));
     }
 
     /**
@@ -59,7 +59,7 @@ class ProduitController extends Controller
      */
     public function edit(Produit $produit)
     {
-        return redirect()->route('back.seller.produit.edit', compact('produit'));
+        return redirect()->route('seller.produit.edit', compact('produit'));
     }
 
     /**
@@ -76,7 +76,7 @@ class ProduitController extends Controller
         $produit->categorie_id = $data['categorie_id'];
         $produit->update();
 
-        return redirect()->route('back.seller.produit.index', ['produits' => $this->findProduit($produit->boutique_id)])->with('success', 'Produit mise à jour avec succès.');
+        return redirect()->route('seller.produit.index', ['produits' => $this->findProduit($produit->boutique_id)])->with('success', 'Produit mise à jour avec succès.');
     }
 
     /**
@@ -87,7 +87,7 @@ class ProduitController extends Controller
         $boutiqueId = $produit->boutique_id;
         $produit->delete();
 
-        return $this->index($boutiqueId);
+        return redirect()->route('seller.produit.index')->with('success', 'Produit supprimé avec succès.');
     }
 
     //Not in controller

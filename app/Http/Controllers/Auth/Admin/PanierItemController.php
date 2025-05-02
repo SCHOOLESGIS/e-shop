@@ -10,6 +10,8 @@ use App\Http\Requests\StorePanierItemRequest;
 use App\Http\Requests\UpdatePanierItemRequest;
 use Illuminate\Support\Facades\Auth;
 
+use function PHPUnit\Framework\isNull;
+
 class PanierItemController extends Controller
 {
     /**
@@ -38,11 +40,23 @@ class PanierItemController extends Controller
                           ->where('produit_id', $data['produit_id'])
                           ->first();
 
+
         if ($item) {
             // Incrémente la quantité existante
-            $item->quantity += $data['quantity'];
-            $item->save();
-        } else {
+            if ($data['decrease'] == 1) {
+                $item->quantity -= $data['quantity'];
+                $item->save();
+                
+                if ($item->quantity == 0) {
+                    $item->delete();
+                    return redirect()->route('admin.panier.index')->with('success', 'Produit ajouté au panier.');
+                }
+            } else {
+                $item->quantity += $data['quantity'];
+                $item->save();
+            }
+        }
+        else {
             // Crée un nouvel article
             $panier->items()->create([
                 'produit_id' => $data['produit_id'],
@@ -50,7 +64,7 @@ class PanierItemController extends Controller
             ]);
         }
 
-        return redirect()->route('back.admin.panier_items.index')->with('success', 'Produit ajouté au panier.');
+        return redirect()->route('admin.panier.index')->with('success', 'Produit ajouté au panier.');
     }
 
     /**
@@ -82,7 +96,7 @@ class PanierItemController extends Controller
         $panierItem->quantity = $data['quantity'];
         $panierItem->save();
 
-        return redirect()->route('back.admin.panier_items.index')->with('success', 'Quantité mise à jour.');
+        return redirect()->route('admin.panierItem.index')->with('success', 'Quantité mise à jour.');
     }
 
     /**
@@ -93,7 +107,7 @@ class PanierItemController extends Controller
         $this->authorizeAccess($panierItem);
         $panierItem->delete();
 
-        return redirect()->route('back.admin.panier_items.index')->with('success', 'Article supprimé du panier.');
+        return redirect()->route('admin.panier.index')->with('success', 'Article supprimé du panier.');
     }
 
     /**

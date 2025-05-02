@@ -22,9 +22,9 @@ class StorePanierItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'panier_id' => ['required', 'integer'],
+            'decrease' => ['nullable', 'integer'],
             'produit_id' => ['required', 'integer'],
-            'quantity' => ['required', 'numeric']
+            'quantity' => ['required', 'numeric', 'min:1']
         ];
     }
 }
