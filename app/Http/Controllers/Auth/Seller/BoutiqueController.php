@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Auth\seller;
 
+use App\Enum\PaginationEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Boutique;
 use App\Http\Requests\StoreBoutiqueRequest;
@@ -14,7 +15,7 @@ class BoutiqueController extends Controller
     public function index()
     {
         $id = Auth::id();
-        $boutiques = Boutique::where('user_id', $id)->paginate(10);
+        $boutiques = Boutique::where('user_id', $id)->paginate(PaginationEnum::NUMBER);
         return view('back.seller.boutiques.index', compact('boutiques'));
     }
 
@@ -64,7 +65,7 @@ class BoutiqueController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('logo')) {
-            
+
             if ($boutique->logo && Storage::disk('public')->exists($boutique->logo)) {
                 Storage::disk('public')->delete($boutique->logo);
             }
