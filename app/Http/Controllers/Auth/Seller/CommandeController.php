@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth\Seller;
 
+use App\Enum\PaginationEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCommandeRequest;
 use App\Models\Commande;
@@ -23,7 +24,7 @@ class CommandeController extends Controller
             })
             ->with('boutique')
             ->orderByDesc('created_at')
-            ->paginate(10);
+            ->paginate(PaginationEnum::NUMBER);
 
         return view('back.seller.commandes.index', compact('commandes'));
     }
@@ -46,7 +47,7 @@ class CommandeController extends Controller
             ->pluck('user_id')
             ->unique();
 
-        $acheteurs = User::whereIn('id', $acheteursIds)->paginate(10);
+        $acheteurs = User::whereIn('id', $acheteursIds)->paginate(PaginationEnum::NUMBER);
 
         return view('back.seller.commandes.create', compact('acheteurs'));
     }

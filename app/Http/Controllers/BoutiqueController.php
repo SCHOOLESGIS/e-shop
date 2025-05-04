@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Enum\PaginationEnum;
 use App\Models\Boutique;
 use App\Http\Requests\StoreBoutiqueRequest;
 use App\Http\Requests\UpdateBoutiqueRequest;
@@ -11,7 +12,7 @@ class BoutiqueController extends Controller
 {
     public function index()
     {
-        $boutiques = Boutique::with('produits')->paginate(10);
+        $boutiques = Boutique::with('produits')->paginate(PaginationEnum::NUMBER);
         $qte = $this->quantity();
         return view('front.boutiques.index', compact(['boutiques', 'qte']));
     }

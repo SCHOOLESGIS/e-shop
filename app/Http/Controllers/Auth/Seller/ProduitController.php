@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth\seller;
 
+use App\Enum\PaginationEnum;
 use App\Http\Controllers\Controller;
 
 use App\Models\Produit;
@@ -129,11 +130,11 @@ class ProduitController extends Controller
             // Si un ID de boutique est fourni, filtrer les produits de cette boutique
             return Produit::where('boutique_id', $boutiqueId)
                                ->whereIn('boutique_id', $boutiques->pluck('id'))
-                               ->paginate(10);
+                               ->paginate(PaginationEnum::NUMBER);
         } else {
             // Sinon, récupérer tous les produits des boutiques du vendeur
             return Produit::whereIn('boutique_id', $boutiques->pluck('id'))
-                               ->paginate(10);
+                               ->paginate(PaginationEnum::NUMBER);
         }
     }
 }

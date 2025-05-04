@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\PaginationEnum;
 use App\Models\Produit;
 use App\Http\Requests\StoreProduitRequest;
 use App\Http\Requests\UpdateProduitRequest;
@@ -16,7 +17,7 @@ class ProduitController extends Controller
     public function index()
     {
         $qte = $this->quantity();
-        $produits = Produit::paginate(10);
+        $produits = Produit::paginate(PaginationEnum::NUMBER);
         return view('front.produits.index', compact(['produits', 'qte']));
     }
 
