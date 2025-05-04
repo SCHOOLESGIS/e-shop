@@ -16,6 +16,7 @@
 @php
     $adminNavigations = [
         ['icon' => 'fi fi-rr-apps', 'link' => 'admin.dashboard.stats', 'libel' => 'Tableau de bord'],
+        ['icon' => 'fi fi-rr-user', 'link' => 'admin.dashboard.stats', 'libel' => 'utilisateurs'],
         ['icon' => 'fi fi-rr-shop', 'link' => 'admin.boutique.index', 'libel' => 'Boutiques'],
         ['icon' => 'fi fi-rr-shopping-cart', 'link' => 'admin.commande.index', 'libel' => 'Commandes'],
         ['icon' => 'fi fi-rr-category', 'link' => 'admin.categorie.index', 'libel' => 'Categories'],
