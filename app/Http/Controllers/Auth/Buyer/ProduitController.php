@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Auth\Buyer;
 
+use App\Enum\PaginationEnum;
 use App\Http\Controllers\Controller;
 
 use App\Models\Produit;
@@ -10,7 +11,7 @@ class ProduitController extends Controller
 {
     public function index()
     {
-        $produits = Produit::paginate(10);
+        $produits = Produit::paginate(PaginationEnum::NUMBER);
         return view('back.buyer.produits.index', compact('produits'));
     }
 

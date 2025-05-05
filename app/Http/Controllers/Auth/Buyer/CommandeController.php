@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth\Buyer;
 
+use App\Enum\PaginationEnum;
 use App\Http\Controllers\Controller;
 
 use App\Models\Commande;
@@ -17,7 +18,7 @@ class CommandeController extends Controller
     public function index()
     {
         $id = Auth::id();
-        $commandes = Commande::where('user_id', $id)->paginate(10);
+        $commandes = Commande::where('user_id', $id)->paginate(PaginationEnum::NUMBER);
         return view('back.buyer.commandes.index', compact('commandes'));
     }
 
