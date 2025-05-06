@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Auth\Buyer;
 
+use App\Enum\PaginationEnum;
 use App\Http\Controllers\Controller;
 
 use App\Models\Boutique;
@@ -11,7 +12,7 @@ class BoutiqueController extends Controller
     public function index()
     {
         $id = Auth::id();
-        $boutiques = Boutique::paginate(10);
+        $boutiques = Boutique::paginate(PaginationEnum::NUMBER);
         return view('back.buyer.boutique.index', compact('boutiques'));
     }
 

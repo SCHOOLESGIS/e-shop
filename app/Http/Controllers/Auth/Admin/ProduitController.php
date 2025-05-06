@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth\Admin;
 
+use App\Enum\PaginationEnum;
 use App\Http\Controllers\Controller;
 
 use App\Models\Produit;
@@ -109,9 +110,9 @@ class ProduitController extends Controller
     public function findProduit(?int $boutiqueId = null)
     {
         if (isNull($boutiqueId)) {
-            return Produit::paginate(10);
+            return Produit::paginate(PaginationEnum::NUMBER);
         }
 
-        return Produit::where('boutique_id', $boutiqueId)->paginate(10);
+        return Produit::where('boutique_id', $boutiqueId)->paginate(PaginationEnum::NUMBER);
     }
 }
