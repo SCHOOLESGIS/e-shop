@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth\Admin;
 
+use App\Enum\PaginationEnum;
 use App\Http\Controllers\Controller;
 
 use App\Models\CommandeItem;
@@ -15,7 +16,7 @@ class CommandeItemController extends Controller
     {
         $commandeItems = CommandeItem::whereHas('commande', function ($query) {
             $query->where('user_id', Auth::id());
-        })->with(['produit', 'commande'])->paginate(10);
+        })->with(['produit', 'commande'])->paginate(PaginationEnum::NUMBER);
 
         return view('back.admin.commande_items.index', compact('commandeItems'));
     }
