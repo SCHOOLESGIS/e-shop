@@ -34,7 +34,8 @@
                                     <input type="hidden" name="quantity" value="1">
                                     <input type="hidden" name="produit_id" value="{{ $item->produit->id }}">
                                     <button type="submit" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">-</button>
-                                </form>                                <input type="text" value="{{ $item->quantity }}" class="w-12 text-center border border-gray-300 rounded" />
+                                </form>
+                                <input type="text" value="{{ $item->quantity }}" class="w-12 text-center border border-gray-300 rounded" />
                                 <form action="{{ route('admin.panierItem.store') }}" method="POST">
                                     @csrf
                                     @method('POST')

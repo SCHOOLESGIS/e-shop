@@ -24,11 +24,11 @@ class UpdateProduitRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'description' => ['nullable', 'string'],
-            'image' => ['nullable', 'string'],
+            'image' => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp'],
             'price' => ['required', 'numeric'],
             'stock' => ['required', 'numeric', 'min:0'],
-            'boutique_id' => ['required', 'integer'],
-            'categorie_id' => ['required', 'integer'],
+            'boutique_id' => ['required', 'exists:boutiques,id'],
+            'categorie_id' => ['required', 'exists:categories,id'],
         ];
     }
 }

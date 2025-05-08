@@ -33,23 +33,23 @@
                         <td class="px-6 py-4">{{ $item->id }}</td>
                         <td class="px-6 py-4">{{ $item->user->name }}</td>
                         <td class="px-6 py-4">{{ $item->boutique->name }}</td>
-                        <td class="px-6 py-4">{{ $item->total }}</td>
-                        <td class="px-6 py-4">{{ $item->status }}</td>
+                        <td class="px-6 py-4"><strong class="text-slate-500">{{ $item->total }}</strong> f cfa</td>
+                        <td class="px-6 py-4">
+                            @if ($item->status == 'pending')
+                            <div class="text-xs w-[100px] flex items-center justify-center px-3 py-2 bg-amber-500/30 text-amber-500 rounded-full gap-3"><div class="bg-amber-500 rounded-full" style="width: 5px; height: 5px;"></div><div>{{ ucfirst(strtolower($item->status)) }}</div></div>
+                            @elseif ($item->status == 'paid')
+                                <div class="text-xs w-[100px] flex items-center justify-center px-3 py-2 bg-green-500/30 text-green-500 rounded-full gap-3"><div class="bg-green-500 rounded-full" style="width: 5px; height: 5px;"></div><div>{{ ucfirst(strtolower($item->status)) }}</div></div>
+                            @elseif ($item->status == 'shipped')
+                                <div class="text-xs w-[100px] flex items-center justify-center px-3 py-2 bg-blue-500/30 text-blue-500 rounded-full gap-3"><div class="bg-blue-500 rounded-full" style="width: 5px; height: 5px;"></div><div>{{ ucfirst(strtolower($item->status)) }}</div></div>
+                            @else
+                                <div class="text-xs w-[100px] flex items-center justify-center px-3 py-2 bg-red-500/30 text-red-500 rounded-full gap-3"><div class="bg-red-500 rounded-full" style="width: 5px; height: 5px;"></div><div>{{ ucfirst(strtolower($item->status)) }}</div></div>
+                            @endif
+                        </td>
                         {{-- <td class="px-6 py-4">{{ $item }}</td> --}}
                         <td class="px-6 py-4 flex gap-3">
-                            <a href="">
+                            <a href="{{ route('seller.commande.show', ['commande' => $item->id]) }}">
                                 <i class="fi fi-rr-eye"></i>
                             </a>
-                            <a href="">
-                                <i class="fi fi-rr-file-edit"></i>
-                            </a>
-                            <form action="" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit">
-                                    <i class="fi fi-rr-delete"></i>
-                                </button>
-                            </form>
                         </td>
                     </tr>
                 @endforeach
@@ -57,6 +57,6 @@
         </table>
     </div>
     <div class="p-4 text-black">
-        {{ $commandes->links() }}
+        {{ $commandes->links('vendor.pagination.tailwind') }}
     </div>
 @endsection

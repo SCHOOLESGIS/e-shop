@@ -2,7 +2,7 @@
 
 @section('content')
 <!-- Start Hero Section -->
-<div class="hero we-help-section relative" style="">
+<div class="hero we-help-section relative wow fadeInUp" data-wow-delay="0.3s">
     <div class="container">
         <div class="row justify-content-between">
             <div class="col-lg-5">
@@ -11,7 +11,17 @@
                     <p class="mb-4">Un écosystème e-commerce puissant, fluide et taillé pour la scalabilité. Créez, gérez, et vendez à l’échelle mondiale, sans friction.</p>
                     <p>
                       <a href="#" class="btn btn-secondary me-2">Explorer</a>
-                      <a href="{{ route('login') }}" class="btn btn-grey-outline" style="border: 2px solid #262525;">Créer ma boutique</a>
+                      @auth
+                        @if (Auth::user()->role == "admin")
+                            <a href="{{ route('buyer.commande.index') }}" class="btn btn-grey-outline" style="border: 2px solid #262525;">Créer une boutique</a>
+                        @elseif(Auth::user()->role == "seller")
+                            <a href="{{ route('buyer.commande.index') }}" class="btn btn-grey-outline" style="border: 2px solid #262525;">Créer une boutique</a>
+                        @else
+                            <a href="{{ route('buyer.commande.index') }}" class="btn btn-grey-outline" style="border: 2px solid #262525;">Passer une commande</a>
+                        @endif
+                      @else
+                        <a href="{{ route('login') }}" class="btn btn-grey-outline" style="border: 2px solid #262525;">Créer ma boutique</a>
+                      @endauth
                     </p>
                 </div>
             </div>

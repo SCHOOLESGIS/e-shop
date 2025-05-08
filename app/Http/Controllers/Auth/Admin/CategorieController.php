@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Categorie;
 use App\Http\Requests\StoreCategorieRequest;
 use App\Http\Requests\UpdateCategorieRequest;
+use App\Models\Boutique;
+use App\Enum\PaginationEnum;
 
 class CategorieController extends Controller
 {
@@ -15,7 +17,8 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        return view('back.admin.categories.index');
+        $categories = Categorie::paginate(PaginationEnum::NUMBER);
+        return view('back.admin.categories.index', compact('categories'));
     }
 
     /**
@@ -23,8 +26,8 @@ class CategorieController extends Controller
      */
     public function create()
     {
-
-        return view('back.admin.categories.create');
+        $boutiques = Boutique::all();
+        return view('back.admin.categories.create', compact('boutiques'));
     }
 
     /**
@@ -38,7 +41,7 @@ class CategorieController extends Controller
         $categorie->boutique_id = $data['boutique_id'];
         $categorie->save();
 
-        return view('back.admin.categories.create')->with('success', 'Catégorie créée avec succès.');
+        return redirect()->route('admin.categorie.index')->with('success', 'Catégorie créée avec succès.');
     }
 
     /**
@@ -46,7 +49,7 @@ class CategorieController extends Controller
      */
     public function show(Categorie $categorie)
     {
-        return view('back.admin.categories.show', compact('categorie'));
+        return view('back.admin.categories.show', compact(['categorie']));
     }
 
     /**
@@ -54,7 +57,8 @@ class CategorieController extends Controller
      */
     public function edit(Categorie $categorie)
     {
-        return view('back.admin.categories.edit', compact('categorie'));
+        $boutiques = Boutique::all();
+        return view('back.admin.categories.edit', compact(['categorie', 'boutiques']));
     }
 
     /**
@@ -65,9 +69,9 @@ class CategorieController extends Controller
         $data = $request->validated();
         $categorie->name = $data['name'];
         $categorie->boutique_id = $data['boutique_id'];
-        $categorie->update();
+        $categorie->save();
 
-        return view('back.admin.categories.index')->with('success', 'Catégorie mise à jour avec succès.');
+        return redirect()->route('admin.categorie.index')->with('success', 'Catégorie mise à jour avec succès.');
     }
 
     /**
@@ -76,6 +80,6 @@ class CategorieController extends Controller
     public function destroy(Categorie $categorie)
     {
         $categorie->delete();
-        return view('back.admin.categories.index')->with('success', 'Catégorie supprimée avec succès.');
+        return redirect()->route('admin.categorie.index')->with('success', 'Catégorie supprimée avec succès.');
     }
 }

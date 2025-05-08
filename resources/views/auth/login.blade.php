@@ -44,7 +44,7 @@
             </x-primary-button>
         </div>
         <div class="flex items-center justify-end mt-5">
-            <a class="underline w-full text-center text-xs text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-100 rounded-md focus:outline-none" href="{{ route('register') }}">
+            <a class="underline w-full text-center text-xs text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-100 rounded-md focus:outline-none" href="{{ route('choice') }}">
                 {{ __('Avez-vous un compte? Créer le') }}
             </a>
         </div>

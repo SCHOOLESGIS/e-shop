@@ -61,6 +61,6 @@
         </table>
     </div>
     <div class="p-4 text-black">
-        {{ $boutiques->links() }}
+        {{ $boutiques->links('vendor.pagination.tailwind') }}
     </div>
 @endsection

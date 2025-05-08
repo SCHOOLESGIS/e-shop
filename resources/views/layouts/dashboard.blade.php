@@ -7,6 +7,9 @@
     <title>Document</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css" integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous"
+  />
 </head>
 <body>
 <!-- resources/views/layouts/sidebar-layout.blade.php -->
@@ -22,34 +25,38 @@
     ];
 
     $sellerNavigations = [
-        ['icon' => 'fi fi-rr-apps', 'link' => 'seller.dashboard', 'libel' => 'Tableau de bord'],
+        ['icon' => 'fi fi-rr-apps', 'link' => 'seller.dashboard.index', 'libel' => 'Tableau de bord'],
         ['icon' => 'fi fi-rr-shopping-bag', 'link' => 'seller.boutique.index', 'libel' => 'Boutiques'],
         ['icon' => 'fi fi-rr-shopping-cart', 'link' => 'seller.commande.index', 'libel' => 'Commandes'],
+        ['icon' => 'fi fi-rr-supplier', 'link' => 'seller.produit.index', 'libel' => 'Produits'],
         ['icon' => 'fi fi-rr-hr-group', 'link' => 'seller.commande.create', 'libel' => 'Clients'],
         ['icon' => 'fi fi-rr-settings-sliders', 'link' => 'profile.edit', 'libel' => 'Paramètres'],
     ];
 
     $buyerNavigations = [
-        ['icon' => 'fi fi-rr-apps', 'link' => 'buyer.dashboard', 'libel' => 'Tableau de bord'],
-        ['icon' => 'fi fi-rr-shopping-bag', 'link' => 'buyer.commande.index', 'libel' => 'Boutiques'],
-        ['icon' => 'fi fi-rr-shopping-cart', 'link' => 'buyer.commande.index', 'libel' => 'Commandes'],
-        ['icon' => 'fi fi-rr-hr-group', 'link' => 'seller.commande.create', 'libel' => 'Clients'],
+        ['icon' => 'fi fi-rr-apps', 'link' => 'buyer.dashboard.index', 'libel' => 'Tableau de bord'],
+        ['icon' => 'fi fi-rr-shopping-cart', 'link' => 'buyer.commande.index', 'libel' => 'Historiques des commandes'],
+        ['icon' => 'fi fi-rr-heart', 'link' => 'buyer.commande.index', 'libel' => 'Favoris'],
         ['icon' => 'fi fi-rr-settings-sliders', 'link' => 'profile.edit', 'libel' => 'Paramètres'],
     ];
 
 @endphp
 <div class="w-full min-h-screen flex bg-white">
     <!-- Sidebar -->
-    <div class="sticky top-0 shadow-[2px_0_10px_1px_rgba(0,0,0,0.05)] border border-2 w-[250px] h-screen bg-white hidden lg:flex flex-col gap-8">
+    <div class="sticky top-0 shadow-[2px_0_10px_1px_rgba(0,0,0,0.05)] border border-2 w-[250px] h-screen bg-white hidden lg:flex flex-col gap-3">
         <div class="h-[80px] flex items-center justify-center border border-stone-200">
-            <img class="w-[150px]" src="/logo/logo.png" alt="Logo">
+            @if (Auth::user()->role != 'buyer')
+                <img class="w-[150px]" src="/logo/logo.png" alt="Logo">
+            @else
+                <a href="{{ route('home.index') }}"><img class="w-[150px]" src="/logo/logo.png" alt="Logo"></a>
+            @endif
         </div>
-        <div class="w-full h-[calc(100vh-110px)] hover:overflow-y-scroll overflow-hidden pt-6 px-2">
+        <div class="w-full h-[calc(100vh-110px)] overflow-hidden pt-1 px-2">
             <ul class="flex flex-col gap-4">
                 @if (Auth::user()->role == 'admin')
                     @foreach ($adminNavigations as $navigation)
                         <li>
-                            <a href="{{ route($navigation['link']) }}" class="rounded bg-orange-50 hover:bg-orange-100 w-full text-start flex items-center gap-3 px-5 py-3 cursor-pointer {{ request()->is(ltrim($navigation['link'], '/')) ? 'bg-gray-100 font-semibold' : '' }}">
+                            <a href="{{ route($navigation['link']) }}" class="{{ request()->routeIs($navigation['link']) ? 'bg-amber-500/30' : 'bg-orange-50 hover:bg-amber-500/30' }} rounded w-full text-start flex items-center gap-3 px-5 py-3 cursor-pointer {{ request()->is(ltrim($navigation['link'], '/')) ? 'bg-gray-100 font-semibold' : '' }}">
                                 <i class="{{ $navigation['icon'] }}"></i>
                                 <span class="font-normal text-gray-700">{{ $navigation['libel'] }}</span>
                             </a>
@@ -58,7 +65,7 @@
                 @elseif (Auth::user()->role == 'seller')
                     @foreach ($sellerNavigations as $navigation)
                         <li>
-                            <a href="{{ route($navigation['link']) }}" class="rounded bg-orange-50 hover:bg-orange-100 w-full text-start flex items-center gap-3 px-5 py-3 cursor-pointer {{ request()->is(ltrim($navigation['link'], '/')) ? 'bg-gray-100 font-semibold' : '' }}">
+                            <a href="{{ route($navigation['link']) }}" class="{{ request()->routeIs($navigation['link']) ? 'bg-amber-500/30 font-semibold' : 'bg-orange-50 hover:bg-amber-500/30' }} rounded w-full text-start flex items-center gap-3 px-5 py-3 cursor-pointer {{ request()->is(ltrim($navigation['link'], '/')) ? 'bg-gray-100 font-semibold' : '' }}">
                                 <i class="{{ $navigation['icon'] }}"></i>
                                 <span class="font-normal text-gray-700">{{ $navigation['libel'] }}</span>
                             </a>
@@ -67,7 +74,7 @@
                 @else
                     @foreach ($buyerNavigations as $navigation)
                         <li>
-                            <a href="{{ route($navigation['link']) }}" class="rounded bg-orange-50 hover:bg-orange-100 w-full text-start flex items-center gap-3 px-5 py-3 cursor-pointer {{ request()->is(ltrim($navigation['link'], '/')) ? 'bg-gray-100 font-semibold' : '' }}">
+                            <a href="{{ route($navigation['link']) }}" class="{{ request()->routeIs($navigation['link']) ? 'bg-amber-500/30' : 'bg-orange-50 hover:bg-amber-500/30' }} rounded w-full text-start flex items-center gap-3 px-5 py-3 cursor-pointer {{ request()->is(ltrim($navigation['link'], '/')) ? 'bg-gray-100 font-semibold' : '' }}">
                                 <i class="{{ $navigation['icon'] }}"></i>
                                 <span class="font-normal text-gray-700">{{ $navigation['libel'] }}</span>
                             </a>
@@ -114,6 +121,10 @@
         </div>
     </div>
 </div>
-
+<script
+src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
+integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8="
+crossorigin="anonymous"
+></script>
 </body>
 </html>

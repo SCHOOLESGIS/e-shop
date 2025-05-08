@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -19,12 +20,12 @@ class RouteServiceProvider extends ServiceProvider
 
     public static function redirectToHome()
     {
-        $role = auth()->user()->role;
+        $role = Auth::user()->role;
 
         return match ($role) {
             'admin' => route('admin.dashboard.stats'),
-            'seller' => route('seller.boutique.index'),
-            default => route('buyer.produit.index'),
+            'seller' => route('seller.dashboard.index'),
+            default => route('home.index'),
         };
     }
 }

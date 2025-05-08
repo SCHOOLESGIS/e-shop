@@ -22,10 +22,7 @@ class UpdateCommandeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'integer'],
-            'boutique_id' => ['required', 'integer'],
-            'total' => ['required', 'numeric'],
-            'status' => ['required', 'numeric']
+            'status' => ['required', 'string', 'in:pending,paid,shipped,cancelled']
         ];
     }
 }

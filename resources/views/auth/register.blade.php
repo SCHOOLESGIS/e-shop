@@ -1,6 +1,7 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register-type') }}">
         @csrf
+        <input type="hidden" name="role" value="{{ $role }}">
 
         <!-- Name -->
         <div>
@@ -45,7 +46,7 @@
             </a>
 
             <x-primary-button class="ms-4">
-                {{ __('Créer un compte') }}
+                {{ __('Créer un compte') }} @if ($role == "seller") vendeur @else acheteur @endif
             </x-primary-button>
         </div>
     </form>

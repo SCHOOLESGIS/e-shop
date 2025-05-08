@@ -609,8 +609,8 @@ a {
       text-align: center;
       line-height: 40px;
       display: inline-block;
-      background: #dce5e4;
-      color: #3b5d50;
+      background: #edebe7;
+      color: #edae11;
       border-radius: 50%; }
       .footer-section .custom-social li a:hover {
         background: #3b5d50;
@@ -740,7 +740,28 @@ textarea {
     width: 125px;
 }
 
+.logo2 {
+    width: 150px;
+}
+
 .others-action {
     filter: invert(1);
     opacity: .75;
+}
+
+.send-plane {
+    background-color: #f9bf29 !important;
+    border-color: #edae11 !important;
+    color: black !important;
+    transition: all .2s .1s ease-in-out;
+}
+
+.send-plane:hover {
+    background-color: #f9bf29 !important;
+    border-color: #edae11 !important;
+    color: white !important;
+}
+
+.subscribe {
+    color: #000000;
 }

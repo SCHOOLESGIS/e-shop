@@ -24,7 +24,7 @@ class StoreProduitRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'description' => ['nullable', 'string'],
-            'image' => ['nullable', 'string'],
+            'image' => ['required', 'file', 'image', 'mimes:jpg,jpeg,png,webp'],
             'price' => ['required', 'numeric'],
             'stock' => ['required', 'numeric', 'min:0'],
             'boutique_id' => ['required', 'integer'],

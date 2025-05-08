@@ -49,12 +49,12 @@ class User extends Authenticatable
 
     public function boutiques()
     {
-        return $this->hasMany(Boutique::class, 'boutique_id', 'id');
+        return $this->hasMany(Boutique::class, 'id', 'user_id');
     }
 
     public function commandes()
     {
-        return $this->hasMany(Commande::class, 'commande_id', 'id');
+        return $this->hasMany(Commande::class, 'id', 'id');
     }
 
     public function panier()

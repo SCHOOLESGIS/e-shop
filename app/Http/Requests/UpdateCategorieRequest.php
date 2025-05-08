@@ -22,7 +22,7 @@ class UpdateCategorieRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'integer'],
+            'name' => ['required', 'string'],
             'boutique_id' => ['required', 'integer']
         ];
     }

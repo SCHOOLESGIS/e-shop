@@ -16,6 +16,13 @@ class BuyerMiddleware
     {
         // Vérifie que l'utilisateur est connecté ET que son rôle est 'buyer'
         if (!Auth::check() || Auth::user()->role !== 'buyer') {
+            if (Auth::check() && Auth::user()->role == 'seller') {
+                return redirect()->route('seller.dashboard.index');
+            }
+
+            if (Auth::check() && Auth::user()->role == 'admin') {
+                return redirect()->route('admin.dashboard.stats');
+            }
             abort(403, 'Accès réservé aux acheteurs.');
         }
 

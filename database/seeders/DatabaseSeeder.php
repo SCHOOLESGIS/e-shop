@@ -10,6 +10,7 @@ use App\Models\Panier;
 use App\Models\PanierItem;
 use App\Models\Produit;
 use App\Models\User;
+use Carbon\Carbon;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -211,14 +212,18 @@ class DatabaseSeeder extends Seeder
             ['user_id' => 5, 'boutique_id' => 2, 'total' => 88.00, 'status' => 'paid'],
         ];
 
-        foreach ($commandes as $commandeData) {
+        $startDate = Carbon::now()->startOfWeek(Carbon::MONDAY);
+
+        foreach ($commandes as $index => $commandeData) {
+            $date = $startDate->copy()->addDays($index % 7);
+
             Commande::create([
                 'user_id'     => $commandeData['user_id'],
                 'boutique_id' => $commandeData['boutique_id'],
                 'total'       => $commandeData['total'],
                 'status'      => $commandeData['status'],
-                'created_at' => now(),
-                'updated_at' => now(),
+                'created_at'  => $date,
+                'updated_at'  => $date,
             ]);
         }
 

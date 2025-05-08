@@ -11,7 +11,7 @@
             @method('POST')
             <!-- Email Address -->
             <div>
-                <x-input-label for="name" :value="__('Nom de la boutique')" />
+                <x-input-label for="name" :value="__('Nom du produit')" />
                 <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
             </div>
@@ -34,6 +34,22 @@
                 <x-input-error :messages="$errors->get('stock')" class="mt-2" />
             </div>
 
+            <div class="mt-4">
+                <select name="boutique_id" id="" class="border-1 border-slate-300 shadow w-full rounded">
+                    @foreach ($boutiques as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mt-4">
+                <select name="categorie_id" id="" class="border-1 border-slate-300 shadow w-full rounded">
+                    @foreach ($categories as $item)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <!-- Password -->
             <div class="mt-4">
                 <x-input-label for="description" :value="__('Description')" />
@@ -42,8 +58,6 @@
 
                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
             </div>
-
-            <input type="hidden" name="user_id" value="{{ Auth::id() }}">
 
             <div class="flex items-center justify-between mt-4">
                 <a href="{{ route('admin.produit.index') }}" class="">

@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Produit;
 use App\Http\Requests\StoreProduitRequest;
 use App\Http\Requests\UpdateProduitRequest;
+use App\Models\Boutique;
+use App\Models\Categorie;
 
 use function PHPUnit\Framework\isNull;
 
@@ -26,7 +28,9 @@ class ProduitController extends Controller
      */
     public function create()
     {
-        return view('back.admin.produits.create');
+        $boutiques = Boutique::all();
+        $categories = Categorie::all();
+        return view('back.admin.produits.create', compact(['boutiques', 'categories']));
     }
 
     /**
@@ -62,7 +66,9 @@ class ProduitController extends Controller
      */
     public function edit(Produit $produit)
     {
-        return redirect()->route('admin.produit.edit', compact('produit'));
+        $boutiques = Boutique::all();
+        $categories = Categorie::all();
+        return view('back.admin.produits.edit', compact(['boutiques', 'categories', 'produit']));
     }
 
     /**
@@ -71,15 +77,21 @@ class ProduitController extends Controller
     public function update(UpdateProduitRequest $request, Produit $produit)
     {
         $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('produits', 'public');
+        } else {
+            unset($data['image']);
+        }
         $produit->name = $data['name'];
         $produit->description = $data['description'];
-        $produit->image = $data['image'];
+        $produit->image = $data['image'] ?? null;
         $produit->price = $data['price'];
         $produit->stock = $data['stock'];
         $produit->categorie_id = $data['categorie_id'];
-        $produit->update();
+        $produit->save();
 
-        return redirect()->route('admin.produit.index', ['produits' => $this->findProduit($produit->boutique_id)])->with('success', 'Produit mise à jour avec succès.');
+        return redirect()->route('admin.produit.index')->with('success', 'Produit mise à jour avec succès.');
     }
 
     /**

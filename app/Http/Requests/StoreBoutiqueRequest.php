@@ -23,9 +23,9 @@ class StoreBoutiqueRequest extends FormRequest
     {
         return [
             'user_id' => ['required', 'integer'],
-            'name' => ['required', 'string'],
+            'name' => ['required', 'string', 'min:2'],
             'slug' => ['nullable', 'string', 'unique:slug,boutiques'],
-            'logo' => ['nullable', 'string'],
+            'logo' => ['nullable', 'file', 'image', 'mimes:jpg,jpeg,png,webp'],
             'description' => ['nullable', 'string']
         ];
     }

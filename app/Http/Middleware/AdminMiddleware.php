@@ -16,7 +16,15 @@ class AdminMiddleware
     {
         // Vérifie que l'utilisateur est connecté ET que son rôle est 'admin'
         if (!Auth::check() || Auth::user()->role !== 'admin') {
-            abort(403, 'Accès réservé aux vendeurs.');
+            if (Auth::check() && Auth::user()->role == 'seller') {
+                return redirect()->route('seller.dashboard.index');
+            }
+
+            if (Auth::check() && Auth::user()->role == 'buyer') {
+                return redirect()->route('home.index');
+            }
+
+            abort(403, 'Accès réservé aux administrateurs.');
         }
 
         return $next($request);

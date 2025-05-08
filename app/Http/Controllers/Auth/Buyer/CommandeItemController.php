@@ -15,9 +15,7 @@ class CommandeItemController extends Controller
     {
         $commandeItems = CommandeItem::whereHas('commande', function ($query) {
             $query->where('user_id', Auth::id());
-        })->with(['produit', 'commande'])->paginate(10);
-
-        return view('back.buyer.commande_items.index', compact('commandeItems'));
+        })->with(['produit', 'commande']);
     }
 
     public function create()
@@ -35,20 +33,16 @@ class CommandeItemController extends Controller
         $commandeItem->quantity = $data['quantity'];
         $commandeItem->unit_price = $data['unit_price'];
         $commandeItem->save();
-
-        return redirect()->route('back.buyer.commande_items.index')->with('success', 'Article de commande ajouté.');
     }
 
     public function show(CommandeItem $commandeItem)
     {
         $this->authorizeAccess($commandeItem);
-        return view('back.buyer.commande_items.show', compact('commandeItem'));
     }
 
     public function edit(CommandeItem $commandeItem)
     {
         $this->authorizeAccess($commandeItem);
-        return view('back.buyer.commande_items.edit', compact('commandeItem'));
     }
 
     public function update(UpdateCommandeItemRequest $request, CommandeItem $commandeItem)
@@ -60,16 +54,12 @@ class CommandeItemController extends Controller
         $commandeItem->quantity = $data['quantity'];
         $commandeItem->unit_price = $data['unit_price'];
         $commandeItem->save();
-
-        return redirect()->route('back.buyer.commande_items.index')->with('success', 'Article mis à jour.');
     }
 
     public function destroy(CommandeItem $commandeItem)
     {
         $this->authorizeAccess($commandeItem);
         $commandeItem->delete();
-
-        return redirect()->route('back.buyer.commande_items.index')->with('success', 'Article supprimé.');
     }
 
     /**

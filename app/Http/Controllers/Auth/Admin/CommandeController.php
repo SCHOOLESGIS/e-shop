@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth\Admin;
 
+use App\Enum\PaginationEnum;
 use App\Http\Controllers\Controller;
 
 use App\Models\Commande;
@@ -14,7 +15,7 @@ class CommandeController extends Controller
     public function index()
     {
         $id = Auth::id();
-        $commandes = Commande::where('user_id', $id)->with('boutique')->orderByDesc('created_at')->paginate(10);
+        $commandes = Commande::with(['boutique', 'user'])->orderByDesc('created_at')->paginate(PaginationEnum::NUMBER);
         return view('back.admin.commandes.index', compact('commandes'));
     }
 
@@ -27,11 +28,8 @@ class CommandeController extends Controller
     {
         $data = $request->validated();
         $commande = new Commande();
-        $commande->user_id = Auth::id();
-        $commande->boutique_id = $data['boutique_id'];
-        $commande->total = $data['total'];
-        $commande->status = $data['status'] ?? 'pending';
-        $commande->save();
+        $commande->status = $data['status'];
+        $commande->update();
 
         return redirect()->route('back.admin.commande.index')->with('success', 'Commande créée avec succès.');
     }
@@ -39,6 +37,7 @@ class CommandeController extends Controller
     public function show(Commande $commande)
     {
         $this->authorizeAccess($commande);
+        $commande->load('commandeItems');
         return view('back.admin.commandes.show', compact('commande'));
     }
 
@@ -53,12 +52,10 @@ class CommandeController extends Controller
         $this->authorizeAccess($commande);
 
         $data = $request->validated();
-        $commande->boutique_id = $data['boutique_id'];
-        $commande->total = $data['total'];
         $commande->status = $data['status'];
-        $commande->save();
+        $commande->update();
 
-        return redirect()->route('admin.commande.index')->with('success', 'Commande mise à jour.');
+        return redirect()->route('admin.commande.show', ['commande' => $commande->id])->with('success', 'Commande mise à jour.');
     }
 
     public function destroy(Commande $commande)
@@ -73,7 +70,7 @@ class CommandeController extends Controller
      */
     private function authorizeAccess(Commande $commande)
     {
-        if ($commande->user_id !== Auth::id()) {
+        if (Auth::user()->role != 'admin') {
             abort(403, 'Accès non autorisé à cette commande.');
         }
     }

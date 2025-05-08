@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Produit;
 use App\Http\Requests\StoreProduitRequest;
 use App\Http\Requests\UpdateProduitRequest;
+use App\Models\Panier;
+use Illuminate\Support\Facades\Auth;
 
 class ProduitController extends Controller
 {
@@ -13,7 +15,9 @@ class ProduitController extends Controller
      */
     public function index()
     {
-        return view('front.produits.index');
+        $qte = $this->quantity();
+        $produits = Produit::paginate(10);
+        return view('front.produits.index', compact(['produits', 'qte']));
     }
 
     /**
@@ -21,6 +25,22 @@ class ProduitController extends Controller
      */
     public function show(Produit $produit)
     {
-        return view('front.produits.show', compact('produit'));
+        $qte = $this->quantity();
+        return view('front.produits.show', compact(['produit', 'qte']));
+    }
+
+    public function quantity ()
+    {
+        $panierQuantity = 0;
+        if (Auth::user()) {
+            $id = Auth::user()->id;
+            $panier = Panier::with('items')->where('user_id', $id)->first();
+            if (!$panier == null) {
+                foreach ($panier->items as $item) {
+                    $panierQuantity += $item->quantity;
+                }
+            }
+        }
+        return $panierQuantity;
     }
 }

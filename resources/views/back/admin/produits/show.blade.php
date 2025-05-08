@@ -2,11 +2,15 @@
 
 @section('content')
     <div class="flex gap-3 w-full min-h-[400px] wrap">
-        <div class="h-[600px] w-[300px] grow rounded shadow-md border bg-slate-200 flex items-center justify-center text-4xl text-slate-300 relative">
+        <div class="overflow-hidden h-[600px] w-[300px] grow rounded shadow-md border bg-slate-200 flex items-center justify-center text-4xl text-slate-300 relative">
             <a href="{{ route('admin.produit.index') }}" class="px-2 bg-red-500 rounded-full absolute text-white text-sm flex items-center justify-center shadow-md border-1 pointer border-white top-1 left-1">
                 Accéder aux produits
             </a>
-            <div>500 X 500</div>
+            @if($produit->image != null)
+                <img class="w-full" src="{{ asset('storage/'.$produit->image) }}" alt="">
+            @else
+                <div>500 X 500</div>
+            @endif
         </div>
         <div class="h-[400px] w-[300px] grow flex flex-col items-start">
             <h1 class="text-3xl mb-6">{{ $produit->name }}</h1>

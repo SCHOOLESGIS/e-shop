@@ -24,7 +24,7 @@ class UpdateBoutiqueRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'slug' => ['nullable', 'string', 'unique:slug,boutiques'],
-            'logo' => ['nullable', 'string'],
+            'logo' => ['nullable', 'file', ''],
             'description' => ['nullable', 'string']
         ];
     }

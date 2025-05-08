@@ -6,6 +6,7 @@ use App\Models\Boutique;
 use App\Http\Requests\StoreBoutiqueRequest;
 use App\Http\Requests\UpdateBoutiqueRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BoutiqueController extends Controller
@@ -63,14 +64,19 @@ class BoutiqueController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('logos', 'public');
+            
+            if ($boutique->logo && Storage::disk('public')->exists($boutique->logo)) {
+                Storage::disk('public')->delete($boutique->logo);
+            }
+
+            $imagePath = $request->file('image')->store('produits', 'public');
         } else {
-            $logoPath = null;
+            $imagePath = $boutique->logo;
         }
 
         $boutique->name = $data['name'];
         $boutique->slug = Str::slug($data['name']);
-        $boutique->logo = $logoPath;
+        $boutique->logo = $imagePath;
         $boutique->description = $data['description'];
         $boutique->update();
 

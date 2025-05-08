@@ -16,7 +16,7 @@ class PanierController extends Controller
      */
     public function index()
     {
-        $panier = Panier::with('items.produit')->where('user_id', Auth::id())->first();
+        $panier = Panier::with('items.produit')->paginate(10);
 
         return view('back.admin.paniers.index', compact('panier'));
     }

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class RedirectByRoleIfAuthenticatedMiddleware
@@ -15,6 +16,14 @@ class RedirectByRoleIfAuthenticatedMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (Auth::check() && Auth::user()->role == 'seller') {
+            return redirect()->route('seller.dashboard.index');
+        }
+
+        if (Auth::check() && Auth::user()->role == 'admin') {
+            return redirect()->route('admin.dashboard.stats');
+        }
+
         return $next($request);
     }
 }
