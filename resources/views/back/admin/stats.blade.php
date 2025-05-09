@@ -16,6 +16,7 @@
                 <div id="chart1" class="border w-[300px] h-[250px] rounded flex items-center justify-center text-xl text-slate-600 relative overflow-hidden grow">
                 </div>
             </div>
+            <div class=""></div>
         </div>
         <div class="w-[250px] border flex p-2 rounded flex flex-wrap gap-3 shadow grow">
             @foreach ($stats as $key => $stat)
