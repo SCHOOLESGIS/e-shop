@@ -19,13 +19,16 @@
                 <tbody>
                     @foreach ($boutiques as $item)
                         <tr>
-                            <td>
-                                <img src="{{ $item->produit->image }}" alt="{{ $item->produit->name }}" class="img-thumbnail" style="width: 64px; height: 4px; object-fit: cover;">
-                            </td>
+                            <td style="padding-left: 10px;">
+                                @if ($item->produit->image != null)
+                                    <img src="{{ asset('storage/'.$item->produit->image) }}" style="object-fit: cover; object-position: center; width: 100px" alt="Books" class="product-image">
+                                @else
+                                    <img src="{{ asset("images/produitbl.jpg") }}" style="object-fit: cover; object-position: center; width: 100px" alt="Books" class="product-image">
+                                @endif                            </td>
                             <td>
                                 <strong>{{ $item->produit->name }}</strong>
                             </td>
-                            <td>${{ $item->produit->price }}</td>
+                            <td>{{ $item->produit->price }} fcfa</td>
                             <td>
                                 <div class="d-flex align-items-center gap-1">
                                     <form action="{{ route('buyer.panierItem.store') }}" method="POST">
@@ -47,7 +50,7 @@
                                     </form>
                                 </div>
                             </td>
-                            <td>${{ $item->quantity * $item->produit->price }}</td>
+                            <td>{{ $item->quantity * $item->produit->price }} fcfa</td>
                             <td class="d-flex justify-content-center align-items-center">
                                 <form action="{{ route('buyer.panierItem.destroy', ['panier_item' => $item->id]) }}" method="POST" class="d-flex justify-content-center align-items-center">
                                     @csrf
@@ -63,14 +66,9 @@
             </table>
         </div>
         <div class="w-100 d-flex flex-column justify-content-end align-items-end gap-2">
-            <div style="font-size: 1.2rem">Total de la commande : <span style="font-weight: bold;">${{ $boutiques->money }}</span></div>
+            <div style="font-size: 1.2rem">Total de la commande : <span style="font-weight: bold;">{{ $boutiques->money }} fcfa</span></div>
             <div class="">
-                <form action="{{ route('buyer.commande.store') }}" method="POST">
-                    @csrf
-                    @method('POST')
-                    <input type="hidden" name="boutique_id" value="{{ $key }}">
-                    <input type="hidden" name="total" value="{{ $boutiques->money }}">
-                    <input type="hidden" name="status" value="pending">
+                <a href="{{ route('home.modalite', ['boutique' => $key]) }}">
                     <button type="submit" class="btn btn-outline-grey d-flex gap-2 align-items-center"><span style="margin-top: 5px;"><i class="fi fi-rr-usd-circle"></span></i><span>Passer la commande</span></button>
                 </form>
             </div>

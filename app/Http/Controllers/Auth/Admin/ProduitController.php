@@ -39,11 +39,13 @@ class ProduitController extends Controller
      */
     public function store(StoreProduitRequest $request)
     {
+        $imagePath = $request->file('image')?->store('produits', 'public');
+
         $data = $request->validated();
         $produit = new Produit();
         $produit->name = $data['name'];
         $produit->description = $data['description'];
-        $produit->image = $data['image'];
+        $produit->image = $imagePath;
         $produit->price = $data['price'];
         $produit->stock = $data['stock'];
         $produit->boutique_id = $data['boutique_id'];

@@ -68,8 +68,8 @@
 							<a class="nav-link text-primary" href="{{ route('home.index') }}">Acceuil</a>
 						</li>
 						<li class=" {{ request()->routeIs('boutique.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route('boutique.index') }}">Boutiques</a></li>
+						<li class=" {{ request()->routeIs('produit.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route('produit.index') }}">Produits</a></li>
 						<li class=" {{ request()->routeIs('home.about') ? 'active' : '' }}"><a class="nav-link" href="{{ route('home.about') }}">A propos</a></li>
-						<li class=" {{ request()->routeIs('home.blog') ? 'active' : '' }}"><a class="nav-link" href="{{ route('home.blog') }}">Blog</a></li>
 						<li class=" {{ request()->routeIs('home.contact') ? 'active' : '' }}"><a class="nav-link" href="{{ route('home.contact') }}">Nous contactez</a></li>
 					</ul>
 
@@ -90,8 +90,8 @@
                         @auth
                             <li class="others-action {{ request()->routeIs('home.panier') ? 'active' : '' }}"><a class="nav-link" href="{{ route('home.panier') }}" style="position: relative;">@if ($qte > 0 )<div style="position: absolute; top: -5px; right: -2px; font-weight: bolder; font-size: 1.1rem">{{ $qte }}</div>@endif<img src="{{ asset('images/cart.svg') }}"></a></li>
                         @else
-                            <li class="others-action {{ request()->routeIs('login') ? 'active' : '' }}" ><a class="nav-link" href="{{ route('login') }}"><img src="{{ asset('images/user.svg') }}"></a></li>
-                            <li class="others-action {{ request()->routeIs('choice') ? 'active' : '' }}"><a class="nav-link" href="{{ route('choice') }}" style="padding: 2px 20px; background-color: rgb(255, 255, 255); border-radius: 5px; margin-top: 5px; margin-left: 15px;"> <span>Sign Up</span></a></li>
+                            <li class="others-action {{ request()->routeIs('login') ? 'active' : '' }}" ><a class="nav-link" href="{{ route('login') }}"  style="padding: 5px 10px 0px 10px; background-color: rgb(255, 255, 255); border-radius: 5px; margin-top: 5px; margin-left: 15px;" ><i class="fi fi-rr-circle-user" style="color: black !important; font-size: 1.25rem; margin: 0px !important;"></i></a></li>
+                            <li class="others-action {{ request()->routeIs('choice') ? 'active' : '' }}"><a class="nav-link" href="{{ route('choice') }}" style="padding: 2px 20px; background-color: rgb(255, 255, 255); border-radius: 5px; margin-top: 5px; margin-left: 5px;"> <span>Sign Up</span></a></li>
                         @endauth
 					</ul>
 				</div>

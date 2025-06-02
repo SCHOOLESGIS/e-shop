@@ -11,10 +11,8 @@ use App\Models\PanierItem;
 use App\Models\Produit;
 use App\Models\User;
 use Carbon\Carbon;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -170,7 +168,7 @@ class DatabaseSeeder extends Seeder
                 'categorie_id'  => $produitData['categorie_id'],
                 'name'          => $produitData['name'],
                 'description'   => $produitData['description'],
-                'image'         => $produitData['image'],
+                'image'         => null,
                 'price'         => $produitData['price'],
                 'stock'         => $produitData['stock'],
                 'created_at' => now(),

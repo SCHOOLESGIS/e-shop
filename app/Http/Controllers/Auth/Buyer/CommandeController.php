@@ -9,8 +9,9 @@ use App\Models\Commande;
 use App\Http\Requests\StoreCommandeRequest;
 use App\Http\Requests\UpdateCommandeRequest;
 use App\Models\CommandeItem;
-use App\Models\Panier;
 use App\Models\PanierItem;
+use App\Models\Payment;
+use App\Models\Produit;
 use Illuminate\Support\Facades\Auth;
 
 class CommandeController extends Controller
@@ -38,6 +39,14 @@ class CommandeController extends Controller
         $commande->status = $data['status'] ?? 'pending';
         $commande->save();
 
+        $payment = new Payment();
+        $payment->nui = $data['niu'];
+        $payment->cvv = $data['cvv'];
+        $payment->exp = $data['exp'];
+        $payment->payment = $data['payment'];
+        $payment->commande_id = $commande->id;
+        $payment->save();
+
         $panierItems = PanierItem::with(['produit.boutique', 'panier'])
         ->whereHas('produit', function ($query) use ($data) {
             $query->where('boutique_id', $data['boutique_id']);
@@ -55,6 +64,9 @@ class CommandeController extends Controller
             $commandeItem->unit_price = $item->quantity * $item->produit->price;
             $commandeItem->save();
 
+            $produit = Produit::all()->findOrFail($item->produit_id);
+            $produit->stock -= $produit->stock;
+            $produit->save();
             $panier_item = PanierItem::all()->findOrFail($item->id);
             $panier_item->delete();
         }

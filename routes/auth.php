@@ -15,7 +15,7 @@ Route::get('choice', [RegisteredUserController::class, 'choice'])
 ->name('choice');
 
 Route::middleware('guest')->group(function () {
-    Route::post('register', [RegisteredUserController::class, 'create'])
+    Route::get('register/{role}', [RegisteredUserController::class, 'create'])
         ->name('register');
 
     Route::post('register-type', [RegisteredUserController::class, 'store'])->name('register-type');

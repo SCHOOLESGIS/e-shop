@@ -70,7 +70,7 @@ class BoutiqueController extends Controller
                 Storage::disk('public')->delete($boutique->logo);
             }
 
-            $imagePath = $request->file('image')->store('produits', 'public');
+            $imagePath = $request->file('logo')->store('produits', 'public');
         } else {
             $imagePath = $boutique->logo;
         }

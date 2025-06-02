@@ -32,15 +32,13 @@
                 {{ $produit->created_at }}
             </span></div>
 
-            <form action="{{ route('admin.panierItem.store') }}" method="POST">
-                @csrf
-                @method('POST')
+            <div>
                 <input type="hidden" name="quantity" value="1">
                 <input type="hidden" name="produit_id" value="{{ $produit->id }}">
-                <button type="submit" class="p-3 rounded-full font-semibold shadow-md bg-amber-500 hover:bg-amber-500/90 text-black flex gap-2 items-center">
-                    <i class="fi fi-rr-shopping-cart-add"></i> Ajouter au panier
+                <button type="submit" class="py-3 px-6 rounded font-semibold shadow-md bg-blue-500 hover:bg-blue-600 text-white flex gap-2 items-center">
+                    Prix : {{ $produit->price }} f cfa
                 </button>
-            </form>
+            </div>
         </div>
     </div>
 @endsection

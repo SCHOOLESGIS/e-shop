@@ -6,17 +6,20 @@
             <a href="{{ route('seller.produit.index') }}" class="px-2 bg-red-500 rounded-full absolute text-white text-sm flex items-center justify-center shadow-md border-1 pointer border-white top-1 left-1">
                 Accéder aux produits
             </a>
-            {{-- {{ dd($produit->image) }} --}}
             @if($produit->image != null)
                 <img class="w-full" src="{{ asset('storage/'.$produit->image) }}" alt="">
             @else
-                <div>500 X 500</div>
+                <img class="w-full" src="{{ asset("images/produitbl.jpg") }}" alt="">
             @endif
         </div>
         <div class="h-[400px] w-[300px] grow flex flex-col items-start">
             <h1 class="text-3xl mb-6">{{ $produit->name }}</h1>
             <div class="text-lg text-slate-700 mb-6">
                 Catégorie : <span class=" px-2 py-1 rounded-full bg-green-100 text-green-500">{{ $produit->categorie->name }}</span>
+            </div>
+            <div class="text-lg text-slate-700 mb-0">Prix : </div>
+            <div class="text-4xl text-slate-400 mb-6">
+                {{ $produit->price }} fcfa
             </div>
             <div class="text-lg text-slate-700 mb-0">Description : </div>
             <div class="text-lg text-slate-400 mb-6">

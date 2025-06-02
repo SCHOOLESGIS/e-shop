@@ -41,6 +41,10 @@ class DashboardController extends Controller
         });
 
         $clients = $commandeItems->pluck('commande.user')->unique('id')->where('role', $role)->values()->take(5);
+        foreach($clients as $client)
+        {
+            $client->load('commandes');
+        }
 
         $commandes = $commandeItems->pluck('commande')->unique('id')->filter(function ($commande) {
             return optional($commande->user)->role === 'buyer';

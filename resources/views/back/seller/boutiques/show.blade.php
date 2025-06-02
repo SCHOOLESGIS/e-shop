@@ -13,9 +13,12 @@
                 ajouter produit
             </a>
         </div>
-        <div class="w-full min-h-[300px] mb-3 rounded shadow-md border flex items-center justify-center flex-col font-bold text-white"  style="background: linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(/images/boutique.png) no-repeat; background-position: center; background-size: cover;">
+        <div class="relative w-full min-h-[180px] mb-3 rounded shadow-md border flex items-center justify-center flex-col font-bold text-white"  style="background: linear-gradient(0deg, rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(/images/boutique.png) no-repeat; background-position: center; background-size: cover;">
             <h1 class="text-5xl mb-3">{{ $boutique->name }}</h1>
             <p class="text-sm text-center">{{ $boutique->description }}</p>
+            <div class="overflow-hidden h-[100px] w-[100px] bg-red-300 absolute rounded-full shadow border border-3" style="transform: translate(-50%,-50%); top: 0; left: 50%;">
+                <img src="{{ asset('storage/'.$boutique->logo) }}" style="object-fit: cover; object-position: center;" alt="">
+            </div>
         </div>
         <div class="mb-2 text-xl text-slate-500">Voici la liste des produits</div>
 
@@ -23,7 +26,11 @@
             @foreach ($boutique->produits as $item)
                 <div class="min-h-[400px] w-[300px] border rounded shadow-md relative" style="flex-grow: 1">
                     <div class="overflow-hidden h-[250px] bg-slate-200 relative flex items-center justify-center text-3xl text-slate-300">
-                        300 X 250
+                        @if ($item->image != null)
+                            <img src="{{ asset('storage/'.$item->image) }}" style="object-fit: cover; object-position: center; width: 100%" alt="Books" class="product-image">
+                        @else
+                            <img src="{{ asset("images/produitbl.jpg") }}" style="object-fit: cover; object-position: center; width: 100%" alt="Books" class="product-image">
+                        @endif
                         <div class="text-black text-sm font-bold rounded-md shadow-md bg-orange-300 absolute p-2 right-1 top-1">
                             {{ $item->stock }}
                         </div>

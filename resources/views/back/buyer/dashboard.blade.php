@@ -47,11 +47,11 @@
             </div>
             <div class="grow relative w-[200px] min-h-[150px] border rounded flex items-center justify-center gap-3 text-md text-slate-600">
                 <div class="mb-3 text-sm absolute top-0 left-1 text-green-500"><i class="fi fi-rr-shopping-cart-check"></i></div>
-                <strong class="text-3xl">{{ count($articles->items) }}</strong> Articles dans le panier
+                <strong class="text-3xl">{{ count($articles->items ?? []) }}</strong> Articles dans le panier
             </div>
             <div class="grow relative w-[200px] min-h-[150px] border rounded flex items-center justify-center gap-3 text-md text-slate-600">
                 <div class="mb-3 text-sm absolute top-0 left-1 text-blue-500"><i class="fi fi-rr-shop"></i></div>
-                <strong class="text-3xl">{{ count($boutiques) }}</strong> Boutiques visitées
+                <strong class="text-3xl">{{ count($boutiques ?? []) }}</strong> Boutiques visitées
             </div>
             <div class="grow relative w-[200px] min-h-[150px] border rounded flex items-center justify-center gap-3 text-md text-slate-600">
                 <div class="mb-3 text-sm absolute top-0 left-1 text-red-400"><i class="fi fi-rr-heart"></i></div>
@@ -108,7 +108,7 @@
             type: "radialBar"
         },
 
-        series: [20],
+        series: [@json(count($comNumber))],
 
         plotOptions: {
             radialBar: {

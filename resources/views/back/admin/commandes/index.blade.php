@@ -40,9 +40,6 @@
                             <a href="{{ route('admin.commande.show', ['commande' => $item->id]) }}">
                                 <i class="fi fi-rr-eye"></i>
                             </a>
-                            <a href="{{ route('admin.commande.edit', ['commande' => $item->id]) }}">
-                                <i class="fi fi-rr-file-edit"></i>
-                            </a>
                             <form action="{{ route('admin.commande.destroy', ['commande' => $item->id]) }}" method="POST">
                                 @csrf
                                 @method('DELETE')

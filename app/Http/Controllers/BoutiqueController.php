@@ -3,25 +3,34 @@ namespace App\Http\Controllers;
 
 use App\Enum\PaginationEnum;
 use App\Models\Boutique;
-use App\Http\Requests\StoreBoutiqueRequest;
-use App\Http\Requests\UpdateBoutiqueRequest;
 use App\Models\Panier;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BoutiqueController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $boutiques = Boutique::with('produits')->paginate(PaginationEnum::NUMBER);
+
         $qte = $this->quantity();
-        return view('front.boutiques.index', compact(['boutiques', 'qte']));
+        $search = $request->input('search');
+
+        $query = Boutique::with('produits');
+
+        if ($search) {
+            $boutiques = $query->where('name', 'like', '%' . $search . '%')->paginate();
+            return view('front.boutiques.index', compact('boutiques', 'qte'));
+        }
+
+        $boutiques = $query->paginate(PaginationEnum::NUMBER);
+
+        return view('front.boutiques.index', compact('boutiques', 'qte'));
     }
 
     public function show(Boutique $boutique)
     {
         $qte = $this->quantity();
         $boutique->load(['produits']);
-        // dd($boutique);
         return view('front.boutiques.show', compact(['boutique', 'qte']));
     }
 

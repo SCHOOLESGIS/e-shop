@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth\Admin;
 
+use App\Enum\PaginationEnum;
 use App\Http\Controllers\Controller;
 
 use App\Models\Panier;
@@ -16,9 +17,8 @@ class PanierController extends Controller
      */
     public function index()
     {
-        $panier = Panier::with('items.produit')->paginate(10);
-
-        return view('back.admin.paniers.index', compact('panier'));
+        $paniers = Panier::with(['items.produit', 'user'])->paginate(PaginationEnum::NUMBER);
+        return view('back.admin.paniers.index', compact('paniers'));
     }
 
     /**

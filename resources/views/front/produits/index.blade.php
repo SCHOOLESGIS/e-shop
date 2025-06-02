@@ -1,7 +1,7 @@
 @extends('layouts.home')
 
 @section('content')
-<section class="site-banner jarallax min-height300 padding-large" style="background: linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)),url(images/hero-image.jpg) no-repeat; background-position: center; background-size: cover;">
+<section class="site-banner jarallax min-height300 padding-large" style="padding-top:40px; height:200px; background: linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)),url(images/hero-image.jpg) no-repeat; background-position: center; background-size: cover;">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -16,16 +16,6 @@
       <div class="row">
         <section id="selling-products" class="col-md-9 product-store">
           <div class="container">
-            <ul class="tabs list-unstyled">
-              <li data-tab-target="#all" class="active tab">All</li>
-              <li data-tab-target="#shoes" class="tab">Shoes</li>
-              <li data-tab-target="#tshirts" class="tab">Tshirts</li>
-              <li data-tab-target="#pants" class="tab">Pants</li>
-              <li data-tab-target="#hoodie" class="tab">Hoodie</li>
-              <li data-tab-target="#outer" class="tab">Outer</li>
-              <li data-tab-target="#jackets" class="tab">Jackets</li>
-              <li data-tab-target="#accessories" class="tab">Accessories</li>
-            </ul>
             <div class="tab-content">
               <div id="all" data-tab-content class="active">
                 <div class="row d-flex flex-wrap">
@@ -33,7 +23,11 @@
                     @foreach ($produits as $item)
                         <div class="product-item col-lg-4 col-md-6 col-sm-6" style="border-radius: 5px;">
                             <div class="image-holder" style="height: 200px; overflow: hidden;">
-                                <img src="{{ asset('storage/'.$item->image) }}" alt="Books" class="product-image" style="width: 100%">
+                                @if ($item->image != null)
+                                    <img src="{{ asset('storage/'.$item->image) }}" style="object-fit: cover; object-position: center; width: 100%" alt="Books" class="product-image">
+                                @else
+                                    <img src="{{ asset("images/produitbl.jpg") }}" style="object-fit: cover; object-position: center; width: 100%" alt="Books" class="product-image">
+                                @endif
                             </div>
                             <div class="cart-concern">
                             <div class="cart-button d-flex justify-content-between align-items-center">
@@ -54,11 +48,12 @@
                                 @endauth
 
                                 @auth
-                                    <form action="{{ route('buyer.panierItem.store') }}" method="POST">
+                                    <form action="{{ route('buyer.favoris.store') }}" method="POST">
                                         @csrf
                                         @method('POST')
                                         <input type="hidden" name="produit_id" value="{{ $item->id }}">
-                                        <button type="button" class="wishlist-btn" style="padding: 10px 20px; border-radius: 20px; background-color: rgb(255, 179, 0); border: none; color: black;">
+                                        <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                                        <button type="submit" class="wishlist-btn" style="padding: 10px 20px; border-radius: 20px; background-color: rgb(255, 179, 0); border: none; color: black;">
                                             <i class="fi fi-rr-heart"></i>
                                         </button>
                                     </form>
@@ -75,7 +70,7 @@
                             <h3 class="product-title">
                                 <a href="{{ route('produit.show', ['produit' => $item->id]) }}">{{ $item->name }}</a>
                             </h3>
-                            <div class="item-price text-primary">${{ $item->price }}</div>
+                            <div class="item-price text-primary">{{ $item->price }} fcfa</div>
                             </div>
                         </div>
                     @endforeach
@@ -100,28 +95,8 @@
                 </form>
               </div>
             </div>
-            <div class="widgets widget-product-tags">
-              <h5 class="widget-title">Tags</h5>
-              <ul class="product-tags sidebar-list list-unstyled">
-                <li class="tags-item">
-                  <a href="">White</a>
-                </li>
-                <li class="tags-item">
-                  <a href="">Cheap</a>
-                </li>
-                <li class="tags-item">
-                  <a href="">Branded</a>
-                </li>
-                <li class="tags-item">
-                  <a href="">Modern</a>
-                </li>
-                <li class="tags-item">
-                  <a href="">Simple</a>
-                </li>
-              </ul>
-            </div>
             <div class="widgets widget-product-brands">
-              <h5 class="widget-title">Brands</h5>
+              <h5 class="widget-title">Boutiques</h5>
               <ul class="product-tags sidebar-list list-unstyled">
                 <li class="tags-item">
                   <a href="">Nike</a>
@@ -138,7 +113,7 @@
               </ul>
             </div>
             <div class="widgets widget-price-filter">
-              <h5 class="widget-title">Filter By Price</h5>
+              <h5 class="widget-title">Filtrer Par Prix</h5>
               <ul class="product-tags sidebar-list list-unstyled">
                 <li class="tags-item">
                   <a href="">Less than $10</a>

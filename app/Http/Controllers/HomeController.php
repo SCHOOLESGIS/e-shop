@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Boutique;
 use App\Models\Panier;
 use App\Models\PanierItem;
 use Illuminate\Support\Facades\Auth;
@@ -74,5 +75,27 @@ class HomeController extends Controller
             }
         }
         return $panierQuantity;
+    }
+    public function modalite (Boutique $boutique)
+    {
+        $items = PanierItem::with('produit')
+            ->whereHas('panier', function ($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->whereHas('produit', function ($query) use ($boutique) {
+                $query->where('boutique_id', $boutique->id);
+            })
+            ->get();
+
+        $money = $items->sum(fn($item) => $item->produit->price * $item->quantity);
+
+        $qte = $items->sum('quantity');
+
+        return view('front.home.modalite', [
+            'items' => $items,
+            'money' => $money,
+            'qte' => $qte,
+            'boutique' => $boutique,
+        ]);
     }
 }

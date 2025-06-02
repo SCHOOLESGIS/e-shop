@@ -12,7 +12,7 @@
                     @if($produit->image != null)
                         <img style="width: 100%;" src="{{ asset('storage/'.$produit->image) }}" alt="">
                     @else
-                        <div>500 X 500</div>
+                        <img src="{{ asset("images/produitbl.jpg") }}" style="object-fit: cover; object-position: center; width: 100px" alt="Books" class="product-image">
                     @endif
                 </div>
             </div>

@@ -54,11 +54,16 @@ class User extends Authenticatable
 
     public function commandes()
     {
-        return $this->hasMany(Commande::class, 'id', 'id');
+        return $this->hasMany(Commande::class, 'user_id', 'id');
     }
 
     public function panier()
     {
         return $this->hasOne(Panier::class, 'panier_id', 'id');
+    }
+
+    public function favoris()
+    {
+        return $this->hasMany(Favoris::class);
     }
 }

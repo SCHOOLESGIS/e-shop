@@ -8,6 +8,7 @@ Route::middleware(['role.redirect'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
     Route::get('/about', [HomeController::class, 'about'])->name('home.about');
     Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
+    Route::get('/modalite/{boutique}', [App\Http\Controllers\HomeController::class, 'modalite'])->name('home.modalite');
     Route::get('/blog', [HomeController::class, 'blog'])->name('home.blog');
     Route::get('/produits', [App\Http\Controllers\ProduitController::class, 'index'])->name('produit.index');
     Route::get('/produits/{produit:name}', [App\Http\Controllers\ProduitController::class, 'show'])->name('produit.show');
@@ -41,6 +42,7 @@ Route::middleware(['auth', 'buyer'])->prefix('buyer')->group(function () {
     Route::resource('commande-items', App\Http\Controllers\Auth\Buyer\CommandeItemController::class)->names('buyer.commandeItem');
     Route::resource('paniers', App\Http\Controllers\Auth\Buyer\PanierController::class)->names('buyer.panier');
     Route::resource('panier-items', App\Http\Controllers\Auth\Buyer\PanierItemController::class)->names('buyer.panierItem');
+    Route::resource('favoris', App\Http\Controllers\Auth\Buyer\FavorisController::class)->names('buyer.favoris');
 });
 
 // Admin routes
@@ -53,6 +55,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin/dashboard')->group(function 
     Route::resource('commande-items', App\Http\Controllers\Auth\Admin\CommandeItemController::class)->names('admin.commandeItem');
     Route::resource('paniers', App\Http\Controllers\Auth\Admin\PanierController::class)->names('admin.panier');
     Route::resource('panier-items', App\Http\Controllers\Auth\Admin\PanierItemController::class)->names('admin.panierItem');
+    Route::resource('/users', App\Http\Controllers\Auth\Admin\UserController::class)->names('admin.user');
 
 });
 

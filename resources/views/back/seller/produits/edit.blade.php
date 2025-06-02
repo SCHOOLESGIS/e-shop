@@ -16,7 +16,7 @@
                     <div class="w-[300px] grow p-3 border rounded">
                         <div class="mt-4">
                             <x-input-label for="name" :value="__('Nom du produit')" />
-                            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+                            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" value="{{ $produit->name }}" required autofocus />
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
 
@@ -28,13 +28,13 @@
 
                         <div class="mt-4">
                             <x-input-label for="price" :value="__('Prix du produit')" />
-                            <input type="number" min="0" name="price" id="price" value="{{ $produit->price }}" class="block mt-1 w-full border border-slate-300 rounded">
+                            <input type="number" min="0" step="0.01" name="price" id="price" value="{{ $produit->price }}" class="block mt-1 w-full border border-slate-300 rounded">
                             <x-input-error :messages="$errors->get('price')" class="mt-2" />
                         </div>
 
                         <div class="mt-4">
                             <x-input-label for="stock" :value="__('Stock du produit')" />
-                            <input type="number" min="0" name="stock" id="stock" class="block mt-1 w-full border border-slate-300 rounded">
+                            <input type="number" min="0" name="stock" id="stock" value="{{ $produit->stock }}" class="block mt-1 w-full border border-slate-300 rounded">
                             <x-input-error :messages="$errors->get('stock')" class="mt-2" />
                         </div>
                     </div>
@@ -52,8 +52,8 @@
                         </div>
 
                         <div class="mt-4">
-                            <x-input-label for="stock" :value="__('Selectionnez la catégorie')" />
-                            <select name="categorie_id" id="" class="border-1 border-slate-300 w-full rounded">
+                            <x-input-label for="categorie" :value="__('Selectionnez la catégorie')" />
+                            <select name="categorie_id" id="categorie" class="border-1 border-slate-300 w-full rounded">
                                 @foreach ($categories as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach

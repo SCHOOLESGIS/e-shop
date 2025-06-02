@@ -18,7 +18,7 @@ class DashboardController extends Controller
     {
         $commandes = Commande::all()->where('user_id', Auth::id())->groupBy('status');
         $statuses = ['pending', 'paid', 'shipped', 'cancelled'];
-
+        $comNumber = Commande::all()->where('user_id', Auth::id());
         foreach ($statuses as $status) {
             if (!isset($commandes[$status])) {
                 $commandes[$status] = collect();
@@ -62,6 +62,6 @@ class DashboardController extends Controller
             $totaux[] = $commandesParJour[$jour]->total ?? 0;
         }
 
-        return view('back.buyer.dashboard', compact(['commandes', 'ca', 'revenusEspere', 'articles', 'boutiques', 'commandesRecents', 'commandes', 'ca', 'revenusEspere', 'jours', 'totaux']));
+        return view('back.buyer.dashboard', compact(['commandes', 'ca', 'revenusEspere', 'articles', 'boutiques', 'commandesRecents', 'commandes', 'jours', 'totaux', 'comNumber']));
     }
 }

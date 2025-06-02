@@ -1,3 +1,43 @@
+@props([
+    'columns' => ['id', 'Utilisateurs', 'nombre d\'items', 'crée le'],
+])
+
+@extends('layouts.dashboard')
+
+@section('content')
+    <div class="mb-4 flex justify-between">
+        <h2 class="text-2xl font-bold text-slate-400">Paniers</h2>
+        <small class="text-2xl text-slate-400">Listes des paniers</small>
+    </div>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white">
+        <table class="w-full text-sm text-left text-gray-600" id="datatable">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                <tr>
+                    @foreach ($columns as $column)
+                        <th scope="col" class="px-6 py-3">{{ $column }}</th>
+                    @endforeach
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($paniers as $item)
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="px-6 py-4">{{ $item->id }}</td>
+                        <td class="px-6 py-4">{{ $item->user->name }}</td>
+                        <td class="px-6 py-4">{{ count($item->items) }}</td>
+                        <td class="px-6 py-4">{{ $item->created_at }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div class="p-4 text-black">
+        {{ $paniers->links('vendor.pagination.tailwind') }}
+    </div>
+@endsection
+
+
+
+
 @extends('layouts.dashboard')
 
 @section('content')
@@ -16,47 +56,8 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
                 <!-- Produit 1 -->
-                @foreach ($panier->items as $item)
-                    <tr>
-                        <td class="px-4 py-4">
-                            <img src="{{ $item->produit->image }}" alt="{{ $item->produit->image }}" class="w-16 h-16 object-cover rounded">
-                        </td>
-                        <td class="px-4 py-4">
-                            <h2 class="text-gray-800 text-sm font-semibold">{{ $item->produit->name }}</h2>
-                        </td>
-                        <td class="px-4 py-4 text-sm text-gray-700">${{ $item->produit->price }}</td>
-                        <td class="px-4 py-4">
-                            <div class="flex items-center gap-1">
-                                <form action="{{ route('admin.panierItem.store') }}" method="POST">
-                                    @csrf
-                                    @method('POST')
-                                    <input type="hidden" name="decrease" value="1">
-                                    <input type="hidden" name="quantity" value="1">
-                                    <input type="hidden" name="produit_id" value="{{ $item->produit->id }}">
-                                    <button type="submit" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">-</button>
-                                </form>
-                                <input type="text" value="{{ $item->quantity }}" class="w-12 text-center border border-gray-300 rounded" />
-                                <form action="{{ route('admin.panierItem.store') }}" method="POST">
-                                    @csrf
-                                    @method('POST')
-                                    <input type="hidden" name="decrease" value="0">
-                                    <input type="hidden" name="quantity" value="1">
-                                    <input type="hidden" name="produit_id" value="{{ $item->produit->id }}">
-                                    <button type="submit" class="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">+</button>
-                                </form>
-                            </div>
-                        </td>
-                        <td class="px-4 py-4 text-sm text-gray-700">${{ $item->quantity*$item->produit->price }}</td>
-                        <td class="px-4 py-4">
-                            <form action="{{ route('admin.panierItem.destroy', ['panier_item' => $item->id]) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" href="#" class="text-red-600 hover:text-red-800 font-bold text-lg">
-                                    <i class="fi fi-rr-trash"></i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
+                @foreach ($paniers as $panier)
+                    {{ $panier }}
                 @endforeach
             </tbody>
         </table>

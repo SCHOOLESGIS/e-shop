@@ -16,7 +16,7 @@
 @php
     $adminNavigations = [
         ['icon' => 'fi fi-rr-apps', 'link' => 'admin.dashboard.stats', 'libel' => 'Tableau de bord'],
-        ['icon' => 'fi fi-rr-user', 'link' => 'admin.dashboard.stats', 'libel' => 'utilisateurs'],
+        ['icon' => 'fi fi-rr-user', 'link' => 'admin.user.index', 'libel' => 'utilisateurs'],
         ['icon' => 'fi fi-rr-shop', 'link' => 'admin.boutique.index', 'libel' => 'Boutiques'],
         ['icon' => 'fi fi-rr-shopping-cart', 'link' => 'admin.commande.index', 'libel' => 'Commandes'],
         ['icon' => 'fi fi-rr-category', 'link' => 'admin.categorie.index', 'libel' => 'Categories'],
@@ -37,7 +37,7 @@
     $buyerNavigations = [
         ['icon' => 'fi fi-rr-apps', 'link' => 'buyer.dashboard.index', 'libel' => 'Tableau de bord'],
         ['icon' => 'fi fi-rr-shopping-cart', 'link' => 'buyer.commande.index', 'libel' => 'Historiques des commandes'],
-        ['icon' => 'fi fi-rr-heart', 'link' => 'buyer.commande.index', 'libel' => 'Favoris'],
+        ['icon' => 'fi fi-rr-heart', 'link' => 'buyer.favoris.index', 'libel' => 'Favoris'],
         ['icon' => 'fi fi-rr-settings-sliders', 'link' => 'profile.edit', 'libel' => 'Paramètres'],
     ];
 
@@ -111,7 +111,14 @@
                         <span>{{ Auth::user()->name ?? 'Nom' }}</span>
                         <span class="text-gray-600 text-sm">{{ Auth::user()->role ?? 'Rôle' }}</span>
                     </div>
-                    <img src="{{ asset('images/person_2.jpg') }}" class="w-12 h-12 rounded-full shadow-md border-2 border-orange-500" alt="Avatar">
+
+                    @php
+                        $image = Auth::user()->image
+                            ? asset('storage/' . Auth::user()->image)
+                            : asset('images/person_2.jpg');
+                    @endphp
+
+                    <img src="{{ $image }}" class="w-12 h-12 rounded-full shadow-md border-2 border-orange-500 object-cover object-center" alt="Avatar">
                 </div>
             </div>
         </div>

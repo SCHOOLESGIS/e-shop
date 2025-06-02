@@ -41,13 +41,13 @@
                         <td class="px-6 py-4">{{ $item->slug }}</td>
                         <td class="px-6 py-4">{{ $item->created_at }}</td>
                         <td class="px-6 py-4 flex gap-3">
-                            <a href="{{ route('seller.boutique.show', ['boutique' => $item->slug]) }}">
+                            <a href="{{ route('admin.boutique.show', ['boutique' => $item->slug]) }}">
                                 <i class="fi fi-rr-eye"></i>
                             </a>
-                            <a href="{{ route('seller.boutique.edit', ['boutique' => $item->slug]) }}">
+                            <a href="{{ route('admin.boutique.edit', ['boutique' => $item->slug]) }}">
                                 <i class="fi fi-rr-file-edit"></i>
                             </a>
-                            <form action="{{ route('seller.boutique.destroy', ['boutique' => $item->slug]) }}" method="POST">
+                            <form action="{{ route('admin.boutique.destroy', ['boutique' => $item->slug]) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit">

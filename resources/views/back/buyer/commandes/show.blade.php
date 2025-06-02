@@ -62,12 +62,18 @@
       </div>
     </div>
 
-    <div class="">
+    <div class="flex flex-col gap-3">
         @if ($commande->status == 'pending')
             <form action="{{ route('buyer.commande.update', ['commande' => $commande->id]) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="status" value="paid">
+                <button type="submit" class="w-full py-4 mt-6 rounded bg-black hover:bg-amber-500 text-white hover:text-black text-lg flex gap-3 items-center justify-center" style="transition: all .2s .1s ease-in-out;"><span class="mt-2"><i class="fi fi-rr-usd-circle"></i></span> <span>Payer la commande</span></button>
+            </form>
+            <form action="{{ route('buyer.commande.update', ['commande' => $commande->id]) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="status" value="cancelled">
                 <button type="submit" class="w-full py-4 mt-6 rounded bg-black hover:bg-amber-500 text-white hover:text-black text-lg flex gap-3 items-center justify-center" style="transition: all .2s .1s ease-in-out;"><span class="mt-2"><i class="fi fi-rr-usd-circle"></i></span> <span>Payer la commande</span></button>
             </form>
         @elseif ($commande->status == 'paid')

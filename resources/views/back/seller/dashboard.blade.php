@@ -5,29 +5,29 @@
         <div class="grow border w-[300px] h-[200px] rounded shadow relative flex flex-col items-center justify-center overflow-hidden text-4xl bg-blue-500/10">
             <div class="mb-3 text-lg absolute top-0 left-1 text-slate-400">Chiffre d'affaire</div>
             <img src="{{ asset('images/dash-bubble.png') }}" alt="" class="absolute right-[-40px] top-[-40px]">
-            {{ $ca }} f cfa
+            {{ $ca }} fcfa
         </div>
         <div class="grow border w-[300px] h-[200px] rounded shadow relative flex flex-col items-center justify-center overflow-hidden text-4xl bg-blue-500/10">
             <div class="mb-3 text-lg absolute top-0 left-1 text-slate-400">Revenue espéré</div>
-            {{ $revenusEspere }} f cfa
+            {{ $revenusEspere }} fcfa
         </div>
         <div class="w-[300px] h-[200px] rounded relative flex flex-col items-center justify-center overflow-hidden grow">
             @if (count($produits) > 3 )
                 <div class="grid grid-cols-2 grid-row-1 text-slate-600 py-3 border-b-2 border-red-500 gap-2 text-sm w-full">
                     <div class="">{{ $produits[0]->name }}</div>
-                    <div class="text-end">€ {{ $produits[0]->price*count($produits[0]->commandeItems) }}</div>
+                    <div class="text-end">{{ $produits[0]->price*count($produits[0]->commandeItems) }} fcfa</div>
                 </div>
                 <div class="grid grid-cols-2 grid-row-1 text-slate-600 py-3 border-b-2 border-blue-500 gap-2 text-sm w-full">
                     <div class="">{{ $produits[1]->name }}</div>
-                    <div class="text-end">€ {{ $produits[1]->price*count($produits[1]->commandeItems) }}</div>
+                    <div class="text-end">{{ $produits[1]->price*count($produits[1]->commandeItems) }} fcfa</div>
                 </div>
                 <div class="grid grid-cols-2 grid-row-1 text-slate-600 py-3 border-b-2 border-green-500 gap-2 text-sm w-full">
                     <div class="">{{ $produits[2]->name }}</div>
-                    <div class="text-end">€ {{ $produits[2]->price*count($produits[2]->commandeItems) }}</div>
+                    <div class="text-end">{{ $produits[2]->price*count($produits[2]->commandeItems) }} fcfa</div>
                 </div>
                 <div class="grid grid-cols-2 grid-row-1 text-slate-600 py-3 border-b-2 border-amber-500 gap-2 text-sm w-full">
                     <div class="">{{ $produits[3]->name }}</div>
-                    <div class="text-end">€ {{ $produits[3]->price*count($produits[3]->commandeItems) }}</div>
+                    <div class="text-end">{{ $produits[3]->price*count($produits[3]->commandeItems) }} fcfa</div>
                 </div>
             @else
                 Aucun produit.
@@ -73,7 +73,7 @@
             @forelse ($produits as $produit)
                 <div class="grid grid-cols-3 grid-row-1 text-slate-600 py-4 border-b gap-2">
                     <div class="">{{ $produit->name }}</div>
-                    <div class="">€ {{ $produit->price }}</div>
+                    <div class="">{{ $produit->price }} fcfa</div>
                     <div class="">{{ $produit->boutique->name }}</div>
                 </div>
             @empty
@@ -89,6 +89,7 @@
                 <div class="">Email</div>
                 <div class="text-end">Nombre de commande</div>
             </div>
+
             @forelse ($clients as $client)
                 <div class="grid grid-cols-3 grid-row-1 text-slate-600 py-4 border-b gap-3">
                     <div class="">{{ $client->name }}</div>

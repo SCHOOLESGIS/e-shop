@@ -18,9 +18,13 @@
             @foreach ($produits as $item)
                 <div class="relative min-h-[400px] w-[300px] border rounded shadow-md" style="flex-grow: 1">
                     <div class="overflow-hidden h-[250px] bg-slate-200 relative flex items-center justify-center text-3xl text-slate-300">
-                        300 X 250
+                        @if ($item->image != null)
+                            <img src="{{ asset('storage/'.$item->image) }}" style="object-fit: cover; object-position: center; width: 100%" alt="Books" class="product-image">
+                        @else
+                            <img src="{{ asset("images/produitbl.jpg") }}" style="object-fit: cover; object-position: center; width: 100%" alt="Books" class="product-image">
+                        @endif
                         <div class="text-black text-sm font-bold rounded-md shadow-md bg-orange-300 absolute p-2 right-1 top-1">
-                            {{ $item->stock }}
+                            {{ $item->stock }} en stock
                         </div>
                     </div>
                     <div class="product-description p-2 relative">

@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -17,10 +18,11 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(Request $request): View
+    public function create(string $role): View
     {
-        $data = $request->validate(['role' => ['required', 'string', 'in:seller,buyer']]);
-        $role = $data['role'];
+        if (!in_array($role, ['seller', 'buyer'])) {
+            abort(404);
+        }
         return view('auth.register', compact('role'));
     }
 
@@ -31,12 +33,19 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['required', 'string', 'in:seller,buyer'],
         ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->route('register', ['role' => $request->input('role')])
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $user = User::create([
             'name' => $request->name,
@@ -49,10 +58,9 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        if ($request->role == 'seller') {
-            return redirect()->route('seller.boutique.index');
-        }
-        return redirect()->route('home.index');
+        return redirect()->route(
+            $request->role === 'seller' ? 'seller.boutique.index' : 'home.index'
+        );
     }
 
 

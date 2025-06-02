@@ -1,7 +1,7 @@
 @extends('layouts.home')
 
 @section('content')
-<section class="site-banner jarallax min-height300 padding-large" style="background: linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)),url(images/hero-image.jpg) no-repeat; background-position: center; background-size: cover;">
+<section class="site-banner jarallax min-height300 padding-large" style="padding-top:40px; height:200px; background: linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)),url(images/hero-image.jpg) no-repeat; background-position: center; background-size: cover;">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -32,13 +32,14 @@
                                 @if ($item->image)
                                     <img src="{{ asset('storage/'.$item->image) }}" style="object-fit: cover; object-position: center; width: 100%" alt="Books" class="product-image">
                                 @else
-                                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center">
-                                        300 X 250
+                                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color:rgb(194, 191, 189); position: relative;">
+                                        <img src="{{ asset("images/boutiques.jpg") }}" style="object-fit: cover; object-position: center; width: 100%" alt="Books" class="product-image">
+                                        <div style="position: absolute; width: 100%; height: 100%; background-color:rgba(0, 0, 0, 0.4);"></div>
                                     </div>
                                 @endif
                             </div>
                             <div class="cart-concern">
-                            <div class="cart-button d-flex justify-content-between align-items-center">
+                            <div class="cart-button d-flex justify-content-between align-items-center" style="top: 40px;">
                                 @auth
                                     <form action="{{ route('buyer.panierItem.store') }}" method="POST">
                                         @csrf
@@ -57,11 +58,12 @@
                                 @endauth
 
                                 @auth
-                                    <form action="{{ route('buyer.panierItem.store') }}" method="POST">
+                                    <form action="{{ route('buyer.favoris.store') }}" method="POST">
                                         @csrf
                                         @method('POST')
                                         <input type="hidden" name="produit_id" value="{{ $item->id }}">
-                                        <button type="button" class="wishlist-btn" style="padding: 10px 20px; border-radius: 20px; background-color: rgb(255, 179, 0); border: none; color: black;">
+                                        <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                                        <button type="submit" class="wishlist-btn" style="padding: 10px 20px; border-radius: 20px; background-color: rgb(255, 179, 0); border: none; color: black;">
                                             <i class="fi fi-rr-heart"></i>
                                         </button>
                                     </form>
@@ -78,7 +80,7 @@
                             <h3 class="product-title">
                                 <a href="{{ route('produit.show', ['produit' => $item->name]) }}">{{ $item->name }}</a>
                             </h3>
-                            <div class="item-price text-primary">${{ $item->price }}</div>
+                            <div class="item-price text-primary">{{ $item->price }} fcfa</div>
                             </div>
                         </div>
                     @endforeach

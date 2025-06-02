@@ -28,7 +28,7 @@
 
                         <div class="mt-4">
                             <x-input-label for="price" :value="__('Prix du produit')" />
-                            <input type="number" min="0" name="price" id="price" class="block mt-1 w-full border border-slate-300 rounded">
+                            <input type="number" min="0" step="0.01" name="price" id="price" class="block mt-1 w-full border border-slate-300 rounded">
                             <x-input-error :messages="$errors->get('price')" class="mt-2" />
                         </div>
 
